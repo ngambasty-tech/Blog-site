@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 Page Not Found — Inkwell</title>
+  <link rel="stylesheet" href="./styles/styles.css" />
+  <style>
+    .not-found-page { animation: fadeUp 0.6s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .not-found-number { animation: scaleIn 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.1s both; }
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .not-found-inner h1    { animation: fadeUp 0.5s ease 0.25s both; }
+    .not-found-inner p     { animation: fadeUp 0.5s ease 0.35s both; }
+    .not-found-inner a     { animation: fadeUp 0.5s ease 0.45s both; }
+    .not-found-number:hover {
+      animation: wobble 0.6s ease;
+      cursor: default;
+    }
+    @keyframes wobble {
+      0%   { transform: rotate(0deg); }
+      20%  { transform: rotate(-4deg) scale(1.03); }
+      40%  { transform: rotate(4deg); }
+      60%  { transform: rotate(-2deg); }
+      80%  { transform: rotate(1deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .ink-drop {
+      margin: 3rem auto 0;
+      width: 100px;
+      height: 100px;
+      opacity: 0.1;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+  </style>
+</head>
+<body>
+
+
+  <%- include('./includes/header.ejs') %>
+
+  <main>
+    <div class="not-found-page">
+      <div class="not-found-inner">
+
+        <div class="not-found-number" aria-hidden="true">404</div>
+
+        <h1>Page Not Found</h1>
+
+        <p>
+          The page you were looking for seems to have wandered off &mdash;
+          perhaps it was never written, or moved to a new address.
+          Either way, it is not here right now.
+        </p>
+
+        <a href="/" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back to Homepage
+        </a>
+
+        <!-- Decorative floating ink drop -->
+        <svg class="ink-drop" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M50 5 C50 5 10 50 10 72 C10 94 28 115 50 115 C72 115 90 94 90 72 C90 50 50 5 50 5Z" fill="#1a1714"/>
+          <path d="M34 78 C34 78 31 66 40 60" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+
+      </div>
+    </div>
+  </main>
+
+<%- include('./includes/footer.ejs') %>
+
+  <script src="./scripts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Future of AI-Assisted Development — Inkwell</title>
+  <link rel="stylesheet" href="./styles/styles.css" />
+</head>
+<body>
+
+
+  <%- include("./includes/header1.ejs") %>
+
+
+  <main>
+
+    <!-- ── Hero Image ── -->
+    <div class="post-hero" role="img" aria-label="Article hero image placeholder" style="height:440px; background:linear-gradient(135deg,#EDE8E3,#C8BFB6); display:flex; align-items:center; justify-content:center; font-size:5rem; color:#B0A898;">
+      🌐
+    </div>
+
+    <!-- ── Post Header ── -->
+    <header class="post-header">
+      <!-- Category Badge -->
+      <span class="badge badge-tech">Tech</span>
+
+      <!-- Title -->
+      <h1 class="post-title">
+        The Future of AI-Assisted Development: A Practical Guide
+      </h1>
+
+      <!-- Byline -->
+      <div class="post-byline">
+        <div class="author-avatar" aria-hidden="true">JD</div>
+        <div class="byline-text">
+          <span class="byline-author">Jamie Dawson</span>
+          <time class="byline-date" datetime="2025-06-10">June 10, 2025</time>
+        </div>
+        <span class="post-reading-time">8 min read</span>
+      </div>
+    </header>
+
+    <!-- ── Post Content ── -->
+    <article class="post-content">
+
+      <p>
+        There's a moment familiar to almost every developer working today — you're deep in a problem, tabs multiplying like rabbits, Stack Overflow open in three windows, and you type a question into an AI assistant half-expecting the usual wrong-but-confident answer. Then it gives you exactly what you needed. Not copied from somewhere, but synthesised, reasoned, adapted to your context.
+      </p>
+
+      <blockquote>
+        "The question is no longer whether AI will change how we build software. It already has. The question is how deeply we let it change us."
+      </blockquote>
+
+      <p>
+        Over the past eighteen months, I've watched my own workflow transform in ways I didn't anticipate. Not just faster Googling, but a fundamentally different relationship with the act of writing code. Exploration has become cheaper. The penalty for "let me just try this" has dropped significantly.
+      </p>
+
+      <h2>The Shift in Cognitive Load</h2>
+
+      <p>
+        One of the most tangible changes is where mental energy goes. Boilerplate, which used to consume real headspace, has become nearly free. The cost of context-switching to remember syntax details has dropped toward zero. This frees up something more valuable: the ability to think at higher levels of abstraction, to hold more of the system in mind at once.
+      </p>
+
+      <p>
+        But there's a real risk here too. When the cost of writing code drops, the cost of writing <em>bad</em> code also drops. Experienced engineers navigate this by shifting their role — less code author, more code reviewer. Judgment, taste, and the ability to recognise what's genuinely good versus superficially correct become more important, not less.
+      </p>
+
+      <h2>What Hasn't Changed</h2>
+
+      <p>
+        Understanding why a system works the way it does. Debugging subtle race conditions at 2am. Knowing that the real problem isn't the one the user reported. Architecting for change you can't fully predict. These remain deeply human skills, and if anything they've grown in importance as the surface area of what we can build expands.
+      </p>
+
+      <p>
+        The engineers I admire most have adapted by leaning into these — becoming exceptionally good at the parts AI genuinely struggles with, while enthusiastically delegating the parts it's good at.
+      </p>
+
+      <h2>A Practical Starting Point</h2>
+
+      <p>
+        If you're still treating AI tools as a search engine replacement, you're leaving a lot on the table. The highest leverage comes from using them for: generating first-draft implementations you then improve, explaining unfamiliar codebases, writing and iterating on tests, and rubber-duck debugging at scale. Start there. Build the habit. Then develop your own style.
+      </p>
+
+      <p>
+        The craft hasn't gone anywhere. It's just moved up a level.
+      </p>
+
+    </article>
+
+    <!-- ── Like & Share ── -->
+    <div class="post-interactions">
+      <!-- Like Button — JS handles the toggle animation in script.js -->
+      <button
+        class="like-btn"
+        aria-label="Like this post. 84 likes."
+        type="button"
+      >
+        <span class="heart" aria-hidden="true">❤️</span>
+        <span class="like-count">84</span>
+        <span>Likes</span>
+      </button>
+
+      <div class="share-actions">
+        <span>Share:</span>
+        <button type="button" onclick="navigator.clipboard.writeText(window.location.href).then(()=>this.textContent='Copied!').catch(()=>{})">Copy Link</button>
+        <button type="button">Twitter</button>
+      </div>
+    </div>
+
+    <!-- ── Comments Section ── -->
+    <section class="comments-section" aria-labelledby="comments-heading">
+      <h2 class="section-title" id="comments-heading">Comments</h2>
+      <div class="divider"></div>
+
+      <!-- Comment Form -->
+      <div class="comment-form">
+        <h3 style="font-size:1rem; font-weight:600; color:var(--color-text); margin-bottom:18px;">Leave a comment</h3>
+        <form action="#" method="POST" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="comment-name">Name</label>
+              <input
+                type="text"
+                id="comment-name"
+                name="name"
+                class="form-control"
+                placeholder="Your name"
+                required
+                autocomplete="name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="comment-email">Email <span style="font-weight:400;opacity:.6">(optional)</span></label>
+              <input
+                type="email"
+                id="comment-email"
+                name="email"
+                class="form-control"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px;">
+            <label for="comment-text">Comment</label>
+            <textarea
+              id="comment-text"
+              name="comment"
+              class="form-control"
+              rows="4"
+              placeholder="Share your thoughts…"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+      </div>
+
+      <!-- Existing Comments -->
+      <!-- NOTE: In EJS: <% post.comments.forEach(comment => { %> … <% }) %> -->
+      <ul class="comments-list" aria-label="Existing comments">
+
+        <li class="comment-item">
+          <div class="comment-header">
+            <div class="comment-avatar" aria-hidden="true">SR</div>
+            <span class="comment-author">Sarah R.</span>
+            <time class="comment-date" datetime="2025-06-11">Jun 11, 2025</time>
+          </div>
+          <p class="comment-body">
+            This really resonated with me. I've noticed the same shift — I'm reviewing and reasoning more than I'm writing from scratch. Takes some adjustment but ultimately feels like an upgrade.
+          </p>
+        </li>
+
+        <li class="comment-item">
+          <div class="comment-header">
+            <div class="comment-avatar" aria-hidden="true">MP</div>
+            <span class="comment-author">Marcus P.</span>
+            <time class="comment-date" datetime="2025-06-11">Jun 11, 2025</time>
+          </div>
+          <p class="comment-body">
+            The part about bad code becoming cheaper is something more people should be talking about. The bar for "good enough to ship" can drop dangerously fast without strong code review culture.
+          </p>
+        </li>
+
+        <li class="comment-item">
+          <div class="comment-header">
+            <div class="comment-avatar" aria-hidden="true">LK</div>
+            <span class="comment-author">Lisa K.</span>
+            <time class="comment-date" datetime="2025-06-12">Jun 12, 2025</time>
+          </div>
+          <p class="comment-body">
+            Great piece. "The craft hasn't gone anywhere, it's just moved up a level" is going on my wall.
+          </p>
+        </li>
+
+      </ul>
+    </section>
+
+  </main>
+
+
+  <%- include("./includes/footer.ejs") %>
+
+
+  <script src="./scripts/script.js"></script>
+</body>
+</html>

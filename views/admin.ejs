@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Inkwell</title>
+  <link rel="stylesheet" href="./styles/styles.css" />
+</head>
+<body>
+
+  <%- include('./includes/header.ejs') %>
+
+  <main>
+    <section class="admin-page">
+      <div class="container">
+
+        <!-- Admin Header -->
+        <div class="admin-header">
+          <h1>Dashboard</h1>
+          <a href="/compose" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Post
+          </a>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="admin-stats" role="group" aria-label="Blog statistics">
+          <div class="stat-card">
+            <div class="stat-label">Total Posts</div>
+            <div class="stat-value">12</div>
+            <div class="stat-change">&#8593; 2 this month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Published</div>
+            <div class="stat-value">9</div>
+            <div class="stat-change">&#8593; 1 this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Drafts</div>
+            <div class="stat-value">3</div>
+            <div class="stat-change">&nbsp;</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Likes</div>
+            <div class="stat-value">284</div>
+            <div class="stat-change">&#8593; 48 this week</div>
+          </div>
+        </div>
+
+        <!-- Posts Table -->
+        <div class="admin-table-wrap" role="region" aria-label="Posts management table">
+          <div class="table-toolbar">
+            <h2>All Posts</h2>
+            <div class="search-box" style="min-width: 240px;" role="search">
+              <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+              <input type="search" placeholder="Filter posts..." aria-label="Filter posts by title" />
+            </div>
+          </div>
+
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Category</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Likes</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- ROW 1 -->
+              <tr>
+                <td class="post-title-cell">
+                  <a href="post.html">The Quiet Revolution of Local-First Software</a>
+                </td>
+                <td><span class="post-tag tech">Tech</span></td>
+                <td><time>Jan 14, 2025</time></td>
+                <td><span class="status-badge published">Published</span></td>
+                <td><span class="post-date">45</span></td>
+                <td>
+                  <div class="action-btns">
+                    <a href="/compose" class="btn-edit" aria-label="Edit: The Quiet Revolution of Local-First Software">Edit</a>
+                    <button class="btn-delete" aria-label="Delete: The Quiet Revolution of Local-First Software">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- ROW 2 -->
+              <tr>
+                <td class="post-title-cell">
+                  <a href="/post">On Slow Mornings and the Art of Doing Nothing</a>
+                </td>
+                <td><span class="post-tag life">Life</span></td>
+                <td><time>Jan 9, 2025</time></td>
+                <td><span class="status-badge published">Published</span></td>
+                <td><span class="post-date">62</span></td>
+                <td>
+                  <div class="action-btns">
+                    <a href="/compose" class="btn-edit" aria-label="Edit: On Slow Mornings">Edit</a>
+                    <button class="btn-delete" aria-label="Delete: On Slow Mornings">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- ROW 3 -->
+              <tr>
+                <td class="post-title-cell">
+                  <a href="/post">Why Typography Is The Foundation of Great Design</a>
+                </td>
+                <td><span class="post-tag design">Design</span></td>
+                <td><time>Dec 28, 2024</time></td>
+                <td><span class="status-badge published">Published</span></td>
+                <td><span class="post-date">38</span></td>
+                <td>
+                  <div class="action-btns">
+                    <a href="/compose" class="btn-edit" aria-label="Edit: Why Typography">Edit</a>
+                    <button class="btn-delete" aria-label="Delete: Why Typography">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- ROW 4 — Draft -->
+              <tr>
+                <td class="post-title-cell">
+                  <a href="/post">38 Hours in Lisbon: A First-Timer's Honest Notes</a>
+                </td>
+                <td><span class="post-tag travel">Travel</span></td>
+                <td><time>Dec 18, 2024</time></td>
+                <td><span class="status-badge draft">Draft</span></td>
+                <td><span class="post-date">&mdash;</span></td>
+                <td>
+                  <div class="action-btns">
+                    <a href="/compose" class="btn-edit" aria-label="Edit: 38 Hours in Lisbon">Edit</a>
+                    <button class="btn-delete" aria-label="Delete: 38 Hours in Lisbon">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- ROW 5 -->
+              <tr>
+                <td class="post-title-cell">
+                  <a href="/post">The Index Fund Argument, Explained Without Jargon</a>
+                </td>
+                <td><span class="post-tag finance">Finance</span></td>
+                <td><time>Dec 10, 2024</time></td>
+                <td><span class="status-badge published">Published</span></td>
+                <td><span class="post-date">91</span></td>
+                <td>
+                  <div class="action-btns">
+                    <a href="/compose" class="btn-edit" aria-label="Edit: Index Fund Argument">Edit</a>
+                    <button class="btn-delete" aria-label="Delete: Index Fund Argument">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- ROW 6 — Draft -->
+              <tr>
+                <td class="post-title-cell">
+                  <a href="/post">Perfect Ramen at Home Is Possible. Here's How.</a>
+                </td>
+                <td><span class="post-tag food">Food</span></td>
+                <td><time>Nov 29, 2024</time></td>
+                <td><span class="status-badge draft">Draft</span></td>
+                <td><span class="post-date">&mdash;</span></td>
+                <td>
+                  <div class="action-btns">
+                    <a href="/compose" class="btn-edit" aria-label="Edit: Perfect Ramen">Edit</a>
+                    <button class="btn-delete" aria-label="Delete: Perfect Ramen">Delete</button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div><!-- /.admin-table-wrap -->
+
+      </div>
+    </section>
+  </main>
+
+  <%- include('./includes/footer.ejs') %>
+
+  <script src="./scripts/script.js"></script>
+</body>
+</html>
