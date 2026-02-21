@@ -21,19 +21,11 @@ const storage = multer.diskStorage({
   }
 });
 
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype.startswith('image/')) {
-//     cd(null, true);
-//   } else {
-//     cb(new Error('Please upload an image'), false);
-//   }
-// };
 const upload= multer({
   storage: storage,
   limits: {
     fileSize: 5 * 1024 * 1024  // limiting the size to 5mb
   }
-  // fileFilter:fileFilter
 });
 
 app.set('views', path.join(__dirname,"views"));
@@ -42,7 +34,37 @@ app.use(express.static('public'));
 app.use(express.urlencoded ({extended: false}))
 
 app.get('/', (req, res) => {
-  res.render('index');
+const storedBlogs = blogData.readBlogs();
+
+//getting the query parameters from the incoming request url
+const page = parseInt(req.query.page) || 1;
+const search = req.query.search || '';
+const category = req.query.category || 'All';
+const postsPerPage = 6;
+
+let filteredBlogs = storedBlogs;
+
+if(search) {
+  filteredBlogs = filteredBlogs.filter(blog => 
+    blog.title.toLowerCase().includes(search.toLowerCase()) ||
+    blog.content.toLowerCase().includes(search.toLowerCase())
+  );
+}
+
+if(category && category !== 'All') {
+  filteredBlogs= filteredBlogs.filter(blog => 
+    blog.category.toLowerCase() === category.toLowerCase()
+  );
+}
+//variables that will be used to calculate the pagination
+const totalBlogs = filteredBlogs.length;
+const totalPages = Math.ceil(totalBlogs / postsPerPage);
+const startIndex = (page - 1) * postsPerPage;
+const endIndex = startIndex + postsPerPage;
+const paginatedBlogs = filteredBlogs.slice(startIndex, endIndex);
+
+
+  res.render('index', {totalBlogs: totalBlogs, blogs: paginatedBlogs, currentPage: page, totalPages: totalPages, searchQuery: search, selectedCategory: category});
 });
 
 app.get('/admin', (req, res) => {
@@ -74,8 +96,57 @@ app.post('/compose', upload.single('image'), (req, res) => {
 app.get('/404', (req, res) => {
   res.render('404');
 });
-app.get('/post', (req, res) => {
-  res.render('post');
+
+app.post('/post/:id/like', (req, res) => {
+  const { id } = req.params;
+  const { liked } = req.body;
+  
+  const blogs = blogData.readBlogs();
+  const blog = blogs.find(b => b.id === id);
+  
+  if (blog) {
+    blog.likes = blog.likes || 0;
+    blog.likes += liked ? 1 : -1;
+    blogData.saveBlogs(blogs);
+    res.json({ success: true, likes: blog.likes });
+  } else {
+    res.status(404).json({ error: 'Post not found' });
+  }
+});
+
+// Add comment
+app.post('/post/:id/comment', (req, res) => {
+  const { id } = req.params;
+  const { name, email, comment } = req.body;
+  
+  const blogs = blogData.readBlogs();
+  const blog = blogs.find(b => b.id === id);
+  
+  if (blog) {
+    blog.comments = blog.comments || [];
+    blog.comments.push({
+      id: uuid.v4(),
+      name,
+      email,
+      text: comment,
+      createdAt: new Date().toISOString()
+    });
+    blogData.saveBlogs(blogs);
+    res.redirect(`/post/${id}#comments`);
+  } else {
+    res.status(404).render('404');
+  }
+});
+
+app.get('/post/:id', (req, res) => {
+  const storedBlogs = blogData.readBlogs();
+  const blog = storedBlogs.find(b => b.id === req.params.id);
+  
+  if (blog) {
+    res.render('post', { blog });
+  } else {
+    res.status(404).render('404');
+  }
 });
 
 app.listen(3000);

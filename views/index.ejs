@@ -14,7 +14,6 @@
 
   <main>
 
-    <!-- ── Hero Section ── -->
     <section class="hero-section">
       <div class="container">
         <p class="hero-label">Welcome to Inkwell</p>
@@ -28,195 +27,131 @@
       </div>
     </section>
 
-    <!-- ── Search & Filter ── -->
     <section class="container">
+      <form action="/" method="GET" id="filterForm">
       <div class="filter-section">
-        <!-- Search Input -->
         <div class="search-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
           <input
             type="search"
+            name="search"
             class="search-input"
             placeholder="Search articles…"
             aria-label="Search articles"
+            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
           />
         </div>
 
-        <!-- Category Tags -->
         <div class="category-tags" role="group" aria-label="Filter by category">
-          <button class="category-tag active">All</button>
-          <button class="category-tag">Tech</button>
-          <button class="category-tag">Life</button>
-          <button class="category-tag">Design</button>
-          <button class="category-tag">Travel</button>
+          <button type="submit" name="category" value="All" class="category-tag <%= !selectedCategory || selectedCategory === 'All' ? 'active' : '' %>">All</button>
+          <button type="submit" name="category" value="Tech" class="category-tag <%= selectedCategory === 'Tech' ? 'active' : '' %>">Tech</button>
+          <button type="submit" name="category" value="Life" class="category-tag <%= selectedCategory === 'Life' ? 'active' : '' %>">Life</button>
+          <button type="submit" name="category" value="Design" class="category-tag <%= selectedCategory === 'Design' ? 'active' : '' %>">Design</button>
+          <button type="submit" name="category" value="Travel" class="category-tag <%= selectedCategory === 'Travel' ? 'active' : '' %>">Travel</button>
         </div>
+
+        <input type="hidden" name="page" value="1" id="pageInput"> 
       </div>
+      </form>
     </section>
 
-    <!-- ── Blog Feed ── -->
+
     <section class="posts-section container">
       <div class="section-header">
         <div>
+          <h2>We have <%= totalBlogs %> articles</h2>
           <h2 class="section-title">Latest Articles</h2>
           <div class="divider"></div>
         </div>
-        <span style="font-size:0.85rem; color:var(--color-text-light); font-family:var(--font-mono);">12 articles</span>
+        <% if (searchQuery || selectedCategory !== 'All') { %>
+          <a href="/" class="clear-filters">
+            Clear Filters
+          <% } %>
       </div>
 
-      <!-- Post Cards Grid -->
+
+<% if (blogs.length > 0) { %>
       <div class="posts-grid featured-layout">
+        <% blogs.forEach((blog, index) => { %>
 
-        <!-- Card 1 — Featured (spans 2 cols on desktop) -->
-        <article class="post-card">
-          <div class="card-image-placeholder" aria-hidden="true">🌐</div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-tech">Tech</span>
-              <time class="card-date" datetime="2025-06-10">Jun 10, 2025</time>
+          <article class="post-card <%= index === 0 && currentPage === 1 ? 'featured-post' : '' %>">
+            <div class="card-image-placeholder" aria-hidden="true">
+              <% if (blog.image) { %>
+                <img src="<%= blog.image %>" alt="<%= blog.title %>" style="width: 100%; height: 100%; object-fit: cover;">
+              <% } else { %>
+
+                <%= 
+                  blog.category === 'Tech' ? '💻' : 
+                  blog.category === 'Life' ? '🌿' : 
+                  blog.category === 'Design' ? '✏️' : 
+                  blog.category === 'Travel' ? '✈️' : '📝'
+                %>
+              <% } %>
             </div>
-            <h3 class="card-title">
-              <a href="/post">The Future of AI-Assisted Development: A Practical Guide</a>
-            </h3>
-            <p class="card-excerpt">
-              How modern language models are reshaping the way engineers write, review, and ship code — and what that means for the craft of software.
-            </p>
-            <div class="card-footer">
-              <a href="/post" class="read-more" aria-label="Read more about AI-Assisted Development">
-                Read More →
-              </a>
-              <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 84</span>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="badge badge-<%= blog.category.toLowerCase() %>"><%= blog.category %></span>
+                <time class="card-date" datetime="<%= blog.createdAt.split('T')[0] %>">
+                  <%= new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                </time>
+              </div>
+              <h3 class="card-title">
+                <a href="/post/<%= blog.id %>"><%= blog.title %></a>
+              </h3>
+              <p class="card-excerpt">
+                <%= blog.content.substring(0, 150) %>...
+              </p>
+              <div class="card-footer">
+                <a href="/post/<%= blog.id %>" class="read-more" aria-label="Read more about <%= blog.title %>">
+                  Read More →
+                </a>
+
+                <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 0</span>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        <% }); %>
 
-        <!-- Card 2 -->
-        <article class="post-card">
-          <div class="card-image-placeholder" aria-hidden="true">🌿</div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-life">Life</span>
-              <time class="card-date" datetime="2025-06-08">Jun 08, 2025</time>
-            </div>
-            <h3 class="card-title">
-              <a href="/post">Slow Mornings and Deep Work: A Year Without Notifications</a>
-            </h3>
-            <p class="card-excerpt">
-              What I learned from turning off every notification for 365 days — and why I'll never go back.
-            </p>
-            <div class="card-footer">
-              <a href="/post" class="read-more">Read More →</a>
-              <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 52</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="post-card">
-          <div class="card-image-placeholder" aria-hidden="true">✏️</div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-design">Design</span>
-              <time class="card-date" datetime="2025-06-05">Jun 05, 2025</time>
-            </div>
-            <h3 class="card-title">
-              <a href="/post">Typography That Thinks: Type Choices as Communication</a>
-            </h3>
-            <p class="card-excerpt">
-              A deep dive into how type choices carry meaning before a single word is read.
-            </p>
-            <div class="card-footer">
-              <a href="/post" class="read-more">Read More →</a>
-              <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 31</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 4 -->
-        <article class="post-card">
-          <div class="card-image-placeholder" aria-hidden="true">✈️</div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-travel">Travel</span>
-              <time class="card-date" datetime="2025-06-01">Jun 01, 2025</time>
-            </div>
-            <h3 class="card-title">
-              <a href="/post">48 Hours in Kyoto: The Places No One Writes About</a>
-            </h3>
-            <p class="card-excerpt">
-              Beyond the temples and tourist trails, there's a quieter Kyoto waiting to be found.
-            </p>
-            <div class="card-footer">
-              <a href="/post" class="read-more">Read More →</a>
-              <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 67</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 5 -->
-        <article class="post-card">
-          <div class="card-image-placeholder" aria-hidden="true">💻</div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-tech">Tech</span>
-              <time class="card-date" datetime="2025-05-28">May 28, 2025</time>
-            </div>
-            <h3 class="card-title">
-              <a href="/post">Building REST APIs That Don't Suck: Lessons from Three Years</a>
-            </h3>
-            <p class="card-excerpt">
-              Error handling, versioning, and documentation — the unglamorous parts that separate good APIs from great ones.
-            </p>
-            <div class="card-footer">
-              <a href="/post" class="read-more">Read More →</a>
-              <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 45</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 6 -->
-        <article class="post-card">
-          <div class="card-image-placeholder" aria-hidden="true">📖</div>
-          <div class="card-body">
-            <div class="card-meta">
-              <span class="badge badge-life">Life</span>
-              <time class="card-date" datetime="2025-05-22">May 22, 2025</time>
-            </div>
-            <h3 class="card-title">
-              <a href="/post">Reading 52 Books in a Year Changed How I Think</a>
-            </h3>
-            <p class="card-excerpt">
-              The surprising cognitive shifts that happen when you commit to reading deeply and broadly for a full year.
-            </p>
-            <div class="card-footer">
-              <a href="/post" class="read-more">Read More →</a>
-              <span style="font-size:0.78rem; color:var(--color-text-light);">❤️ 93</span>
-            </div>
-          </div>
-        </article>
-
-      </div><!-- /posts-grid -->
-
-      <!-- Pagination -->
-      <nav class="pagination" aria-label="Blog post pages">
-        <button class="page-btn" disabled aria-label="Previous page">
-          ← Previous
-        </button>
-        <span class="page-info">Page 1 of 4</span>
-        <a href="#" class="page-btn" aria-label="Next page">
-          Next →
-        </a>
-      </nav>
-
-    </section>
-
-  </main>
+      </div>
 
 
- 
-  <%- include("./includes/footer.ejs") %>
+      <% if (totalPages > 1) { %>
+        <nav class="pagination" aria-label="Blog post pages">
+          <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %><%= searchQuery ? '&search=' + searchQuery : '' %><%= selectedCategory !== 'All' ? '&category=' + selectedCategory : '' %>" class="page-btn" aria-label="Previous page">
+              ← Previous
+            </a>
+          <% } else { %>
+            <button class="page-btn" disabled aria-label="Previous page">
+              ← Previous
+            </button>
+          <% } %>
+          
+          <span class="page-info">Page <%= currentPage %> of <%= totalPages %></span>
+          
+          <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %><%= searchQuery ? '&search=' + searchQuery : '' %><%= selectedCategory !== 'All' ? '&category=' + selectedCategory : '' %>" class="page-btn" aria-label="Next page">
+              Next →
+            </a>
+          <% } else { %>
+            <button class="page-btn" disabled aria-label="Next page">
+              Next →
+            </button>
+          <% } %>
+        </nav>
+      <% } %>
+    <% } else { %>
+      <div class="no-results">
+        <h3>No articles found</h3>
+        <p>Try adjusting your search or filter criteria</p>
+        <a href="/" class="clear-filters-btn">View all articles</a>
+      </div>
+    <% } %>
+  </section>
+</main>
 
-  <script src="./scripts/script.js"></script>
-</body>
-</html>
+<%- include("./includes/footer.ejs") %>
+
+<script src="./scripts/script.js"></script>
